@@ -1,0 +1,367 @@
+图片解码后再用
+类里静态成员不能直接调用，所以调用opt
+靠定时器来调用设置时间和闹钟
+MainAPPStart::MainAPPStart(LvcppMainScreen* parent)
+{
+    //void *MAIN_MENU_text_S_PNG=(void*)parse_image_from_file((char*)"./resource/image/Butterflies-neon-light.jpg");
+    void *MAIN_MENU_text_S_PNG=(void*)parse_image_from_file((char*)"./resource/image/background/christmas.jpg");
+    Mainopt = this;
+    m_screen = parent;
+    m_parent = m_screen->get_obj();
+    m_screen->background_color(lv_color_white());
+    m_screen->showlogo(MAIN_MENU_text_S_PNG,SCREEN_HOR_SIZE,SCREEN_VER_SIZE,0);
+    m_screen->transparent(false);
+#if 0
+    LvcppGif  *gif=new LvcppGif(m_parent);
+    void *MAIN_MENU_BLUETOOTH_B_PNG=(void*)parse_image_from_file((char*)"./resource/image/setting/bluetooth.png");
+    gif->set_main_bg_img_src(MAIN_MENU_MICROPHONE_B_PNG);
+    gif->set_pos_x(800);
+    gif->set_pos_y(200);
+    gif->set_size(200,200);
+    LvcppGif  *gif2=new LvcppGif(m_parent);
+    void *MAIN_MENU_NET_RADIO_B_PNG=(void*)parse_image_from_file((char*)"./resource/image/setting/net_radio.png");
+    gif2->set_main_bg_img_src(MAIN_MENU_NET_RADIO_B_PNG);
+    gif2->set_pos_x(800);
+    gif2->set_pos_y(600);
+    gif2->set_width(200);
+    gif2->set_height(200);
+    LvcppGif  *gif3=new LvcppGif(m_parent);
+    void *MAIN_MENU_MICROPHONE_B_PNG=(void*)parse_image_from_file((char*)"./resource/image/setting/microphone.png");
+    gif3->set_main_bg_img_src(MAIN_MENU_MICROPHONE_B_PNG);
+    gif3->set_pos_x(800);
+    gif3->set_pos_y(300);
+    gif3->set_size(200,200);
+    LvcppLabel*  label=new LvcppLabel(m_parent);
+    label->txt_font_size(20, 10);
+
+    label->set_txt("waiting for connection ...");
+    label->set_pos_x(400);
+    label->set_pos_y(500);
+
+    label->txt_color(lv_color_make(50,200,300),LV_PART_MAIN);
+    LvcppLabel*  label2=new LvcppLabel(m_parent);
+    label2->txt_font_size(30, 10);
+    label2->set_txt("AMOZOL-1");
+    label2->set_pos_x(400);
+    label2->set_pos_y(450);
+    label2->txt_color(lv_color_make(50,200,300),LV_PART_MAIN);
+    LvcppLabel*  label3=new LvcppLabel(m_parent);
+    label3->set_txt("(iPhone connected)");
+    label3->set_pos_x(400);
+    label3->set_pos_y(550);
+    label3->txt_font_size(20, 10);
+    label3->txt_color(lv_color_make(50,200,300),LV_PART_MAIN);
+    LvcppLabel*  label4=new LvcppLabel(m_parent);
+    label4->txt_font_size(40, 40);
+
+    label4->set_txt("13:14");
+    label4->set_pos_x(50);
+    label4->set_pos_y(900);
+    LvcppLabel*  label5=new LvcppLabel(m_parent);
+    label5->txt_font_size(40, 40);
+
+    label5->set_txt("FRIDAY");
+    label5->set_pos_x(50);
+    label5->set_pos_y(945);
+    LvcppLabel*  label6=new LvcppLabel(m_parent);
+    label6->txt_font_size(25,25);
+
+    label6->set_txt("04/24");
+    label6->set_pos_x(50);
+    label6->set_pos_y(1000);
+
+    /*
+    LvcppBar *bar=new LvcppBar(m_parent);
+    bar->set_main_bg_color(lv_color_hex(0xff0000),LV_OPA_100);
+    bar->set_style_bg_color(lv_color_hex(0xffffff),LV_OPA_100,LV_PART_INDICATOR);
+    bar->set_pos_x(600);
+    bar->set_pos_y(600);
+    bar->set_start_value(0,LV_ANIM_ON);
+    bar->set_range(0,55);
+    bar->set_value(20,LV_ANIM_ON);
+    bar->set_mode(LV_BAR_MODE_NORMAL);
+    bar->get_value();
+    bar->get_start_value();
+    bar->get_min_value();
+    bar->get_max_value();
+    bar->get_mode();
+    */
+    LvcppSlider *slider=new LvcppSlider(m_parent);
+    slider->set_main_bg_color(lv_color_hex(0xff0000),LV_OPA_100);
+    slider->set_style_bg_color(lv_color_hex(0xff0000),LV_OPA_100,LV_PART_INDICATOR);
+    slider->set_pos(700,800);
+    slider->set_range(0,55);
+    slider->set_value(20,LV_ANIM_ON);
+    slider->set_mode(LV_BAR_MODE_NORMAL);
+    slider->get_value();
+    slider->get_min_value();
+    slider->get_max_value();
+    slider->add_event_cb(my_event_cb,LV_EVENT_VALUE_CHANGED,this);
+    slider->get_mode();
+    LvcppSlider *slider2=new LvcppSlider(m_parent);
+    slider2->set_main_bg_color(lv_color_hex(0xffffff),LV_OPA_100);
+    slider2->set_style_bg_color(lv_color_hex(0xffffff),LV_OPA_100,LV_PART_INDICATOR);
+    slider2->set_pos(700,200);
+    slider2->set_range(0,55);
+    slider2->set_value(10,LV_ANIM_ON);
+    slider2->set_mode(LV_BAR_MODE_NORMAL);
+    slider2->get_value();
+    slider2->get_min_value();
+    slider2->get_max_value();
+    slider2->add_event_cb(my_event2_cb,LV_EVENT_VALUE_CHANGED,this);
+    slider2->get_mode();
+    LvcppLabel*  label7=new LvcppLabel(m_parent);
+    label7->txt_font_size(20, 10);
+
+    label7->set_txt("50");
+    label7->set_pos(985,195);
+
+    label7->txt_color(lv_color_make(50,50,50),LV_PART_MAIN);
+    LvcppGif  *gif4=new LvcppGif(m_parent);
+    void *MAIN_MENU_VOLUME_B_PNG=(void*)parse_image_from_file((char*)"./resource/image/volume/volume_b.png");
+    gif4->set_main_bg_img_src(MAIN_MENU_VOLUME_B_PNG);
+    gif4->set_pos(620,157);
+    gif4->set_size(100,100);
+    LvcppButton *button=new LvcppButton(m_parent);
+    void *MAIN_MENU_NAOZHONG_B_PNG=(void*)parse_image_from_file((char*)"./resource/image/other/Alarm-1-2.png");
+    button->set_pos(1200,200);
+    button->set_size(50,50);
+    button->set_auto_src(MAIN_MENU_NAOZHONG_B_PNG);
+    button->clear_txt();
+    button->add_txt(" ");
+    button->txt_font_size(30,3);
+    button->txt_long_mode(LV_LABEL_LONG_CLIP);
+    button->get_main_src();
+    button->get_label();
+    button->get_txt();
+    button->get_txt_align();
+    button->get_txt_color();
+    button->get_txt_long_mode();
+    button->add_event_cb(timer_event_cb,LV_EVENT_CLICKED,this);
+    //button还未完成 点它就切换页面的响应
+    LvcppTextArea *textarea=new LvcppTextArea(m_parent);
+    textarea->set_text("");
+    textarea->set_placeholder_text("username");
+    textarea->set_password_mode(false);
+    textarea->set_one_line(true);
+    textarea->set_accepted_chars(0);
+    textarea->set_max_length(20);
+    textarea->set_cursor_pos(0);
+    textarea->set_cursor_click_pos(true);
+    textarea->set_cursor_flicker(true);
+    textarea->txt_font_size(20,4);
+    textarea->txt_color(lv_color_black());
+    textarea->txt_long_mode(LV_LABEL_LONG_WRAP);
+    textarea->get_label();
+    textarea->get_text();
+    textarea->get_text_align();
+    textarea->get_placeholder_text();
+    textarea->get_password_mode();
+    textarea->get_one_line();
+    textarea->get_accepted_chars();
+    textarea->get_max_length();
+    textarea->get_password_show_time();
+    textarea->get_cursor_pos();
+    textarea->get_cursor_click_pos();
+    textarea->get_txt_color();
+    textarea->get_txt_long_mode();
+    LvcppKeyboard *keyboard=new LvcppKeyboard(m_parent);
+    keyboard->set_textarea(textarea->myobj);
+    keyboard->set_mode(0);
+    keyboard->set_popovers(true);
+    keyboard->set_dict("abcdefghijklmnopqrstuvwxyz");
+    //keyboard->set_text_font(const lv_font_t * value,20);
+    keyboard->get_mode();
+    keyboard->get_popovers();
+    keyboard->get_textarea();
+#endif
+    initial();
+    wallpaper_initial();
+}
+
+
+
+
+
+
+
+
+
+
+void ClockTime::TimerCB(lv_timer_t * tmr)
+{
+    LV_UNUSED(tmr);
+    if(StartTimerShow !=true)
+        return;
+    SYSDateTime gettime;
+    user_time = gettime.current_datetime();
+	if(!clockList_show)
+		updata_clockScene_index(curClock);
+    if((timecntback >16)&&(head_show ==true)&&(clockList_show !=true))
+    {
+        timecntback =0;
+        if(buttonReturn !=NULL)
+        {
+            buttonReturn->show(false);
+        }
+        head_show =false;
+    }
+    else if(head_show ==true)
+    {
+        timecntback++;
+    }
+}
+一个lvgl定时器的回调函数，用于更新时钟界面的时间显示和控制界面元素的显示和隐藏。
+
+具体来说，该函数首先通过判断StartTimerShow变量的值，确定是否需要更新时间显示。如果StartTimerShow为false，表示不需要更新时间显示，直接返回。
+
+接着，该函数通过调用gettime.current_datetime()函数获取当前时间，并将其保存到user_time变量中。如果当前不是在时钟列表界面（clockList_show为false），则调用updata_clockScene_index函数更新时钟界面的时间显示。
+
+接下来，该函数通过计数器timecntback和head_show变量控制界面元素的显示和隐藏。如果计数器timecntback的值大于16且head_show为true，表示需要隐藏返回按钮，将buttonReturn元素的显示状态设置为false，并将head_show变量设置为false。否则，将计数器timecntback的值加1。
+
+文字列表形式，加入index，clocktimelist----hour0/10,hour%10,minute同
+week =(dateTime->day+1+2*dateTime->month+3*(dateTime->month+1)/5+dateTime->year+dateTime->year/4-dateTime->year/100+dateTime->year/400)%7;
+
+
+
+
+
+time set里面设置时间---确认保存后回到
+创建一个文本对象，用于显示倒计时数字。
+lv_obj_t *label = lv_label_create(lv_scr_act(), NULL);
+设置文本对象的样式和位置。
+lv_style_t style;
+lv_style_copy(&style, &lv_style_plain);
+style.text.font = &lv_font_montserrat_48; // 设置字体
+style.text.color = LV_COLOR_RED; // 设置字体颜色
+lv_label_set_style(label, LV_LABEL_STYLE_MAIN, &style);
+lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, 0); // 设置文本对象居中对齐
+创建一个定时器，用于每秒更新倒计时数字。
+lv_timer_create(timer_cb, 1000, label); // 创建定时器，每秒触发一次，回调函数为timer_cb，传递的参数为label
+编写回调函数timer_cb，用于更新倒计时数字。
+void timer_cb(lv_timer_t *timer) {
+    static int count = 10; // 倒计时初始值
+    lv_obj_t *label = timer->user_data; // 获取传递的参数
+    char buf[10]; // 存储倒计时数字的字符串
+    sprintf(buf, "%d", count); // 将数字转换为字符串
+    lv_label_set_text(label, buf); // 更新文本对象的内容
+    count--; // 倒计时减1
+    if (count < 0) {
+        lv_timer_del(timer); // 倒计时结束，删除定时器
+    }
+}
+启动定时器。
+lv_timer_start(timer);
+
+
+
+
+
+
+要实现实时旋转lvgl中的image控件，可以使用lv_task_t定时器并在其回调函数中逐渐改变image控件的旋转角度。以下是一个简单的示例代码：
+
+// 定义一个全局变量来存储旋转角度
+static int angle = 0;
+
+// 定义一个lv_task_t定时器
+lv_task_t* rotate_task = lv_task_create(rotate_image, 10, LV_TASK_PRIO_LOWEST, NULL);
+
+// 定义rotate_image回调函数，每次改变旋转角度并更新image控件
+void rotate_image(lv_task_t* task) {
+    angle += 1;
+    if (angle >= 360) {
+        angle = 0;
+    }
+    lv_img_set_angle(image_control, angle);
+}
+在这个例子中，我们定义了一个全局变量angle来存储旋转角度，并创建了一个lv_task_t定时器来定时执行rotate_image回调函数。在回调函数中，我们逐渐改变角度值并使用lv_img_set_angle函数来更新image控件的旋转角度。
+
+在实际使用中，您可以根据需要调整定时器的时间间隔和角度变化的速度。
+
+
+
+
+
+可以通过调用 lv_img_set_angle 函数并传入适当的参数来实现每次将 angle 值减少 30 度的效果。下面是一个示例代码：
+
+// 假设你已经创建了一个图像对象 imgObj
+
+// 获取当前角度
+int16_t curAngle = lv_img_get_angle(imgObj);
+
+// 计算新的角度
+int16_t newAngle = curAngle - 30;
+if(newAngle < 0) {
+    newAngle += 3600; // 如果新角度小于 0，则加上 3600，使其在 [0, 3600) 范围内
+}
+
+// 设置新的角度
+lv_img_set_angle(imgObj, newAngle);
+在上面的代码中，我们首先使用 lv_img_get_angle 函数获取当前角度，然后将其减去 30 得到新的角度。如果新角度小于 0，我们将其加上 3600，使其在 [0, 3600) 范围内。最后，我们使用 lv_img_set_angle 函数将新角度设置给图像对象。
+
+
+
+
+在lvgl中，可以使用定时器来实现数字倒计时。假设需要倒计时10秒，可以创建一个定时器，每1秒触发一次，并在每次触发时将倒计时数减1。示例代码如下：
+
+static lv_timer_t * timer;
+static int count = 10; // 倒计时初始值为10
+
+// 倒计时回调函数
+static void countdown_cb(lv_timer_t * timer)
+{
+    count--;
+    if(count >= 0) {
+        // 更新倒计时数字
+        lv_label_set_text_fmt(label, "%d", count);
+    }
+}
+
+// 创建定时器
+timer = lv_timer_create(countdown_cb, 1000, NULL);
+如果需要与指针动画倒计时对应，可以在每次倒计时时更新指针动画的角度。假设指针动画每秒钟旋转30度，示例代码如下：
+
+static lv_obj_t * pointer;
+static int angle = 0; // 指针动画初始角度为0
+
+// 倒计时回调函数
+static void countdown_cb(lv_timer_t * timer)
+{
+    count--;
+    if(count >= 0) {
+        // 更新倒计时数字
+        lv_label_set_text_fmt(label, "%d", count);
+        
+        // 更新指针动画角度
+        angle -= 30;
+        lv_obj_set_angle(pointer, angle);
+    }
+}
+
+// 创建定时器
+timer = lv_timer_create(countdown_cb, 1000, NULL);
+这样，在每次倒计时时，指针动画就会顺时针旋转30度，直到倒计时结束。当然，具体的旋转角度和倒计时时间可以根据实际需求进行调整。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
